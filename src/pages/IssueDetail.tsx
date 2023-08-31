@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router'
 import { useAppSelector } from '../redux/hook';
