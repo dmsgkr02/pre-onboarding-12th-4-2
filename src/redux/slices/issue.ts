@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Issue } from '../../types'
-import { getIssueList } from '../../api/issue'
+import { getIssueList, LOAD_DATA_LENGTH } from '../../api/issue'
 
 // Define a type for the slice state
 interface IssueState {
@@ -44,6 +44,9 @@ export const issueListSlice = createSlice({
     builder.addCase(fetchIssueList.fulfilled, (state, action) => {
       state.loading = false;
       state.data = [...state.data, ...action.payload.response];
+      if (action.payload.response.length < LOAD_DATA_LENGTH) {
+        state.hasMore = false;
+      }
       state.page = action.payload.page;
     });
     builder.addCase(fetchIssueList.rejected, (state, action) => {

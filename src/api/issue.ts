@@ -1,10 +1,13 @@
 import instance from ".";
 import { Issue } from "../types";
 
+export const LOAD_DATA_LENGTH = 15;
+
 export const getIssueList = async (page:number, organization:string = `facebook`, repository:string = `react`) => {
   const response = await instance.get(`/${organization}/${repository}/issues`, {
-    params:{ page: page, per_page: 10, sort:'comments'}
+    params:{ page: page, per_page: LOAD_DATA_LENGTH, sort:'comments'}
   });
+
   return response.data.map((issue: any) => {
     return({
       id: issue.id,

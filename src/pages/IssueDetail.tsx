@@ -19,8 +19,10 @@ export default function IssueDetail() {
     dispatch(fetchIssueDetail(issueNumber));
   }, [])
 
+  console.info(error);
+
   if (error) {
-    return <ErrorPage />;
+    return <ErrorPage errorMesage={error} />;
   }
   if (loading) {
     return (

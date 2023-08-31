@@ -19,7 +19,7 @@ export default function IssueList() {
     data: issueList,
     error,
     page,
-    hasMore,
+    hasMore
   } = useAppSelector(state => state.issuesList);
   const { scrollHeight, scrollY } = useScroll();
 
@@ -36,7 +36,7 @@ export default function IssueList() {
   }, [loading, page, issueList, scrollY, scrollHeight, issueList]);
   
   if (error) {
-    return <ErrorPage />;
+    return <ErrorPage errorMesage={error}/>;
   }
 
   return (
