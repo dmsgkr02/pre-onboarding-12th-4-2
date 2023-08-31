@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { fetchIssueList } from '../redux/slices/issue';
 import { useScroll } from '../hooks/useScroll'

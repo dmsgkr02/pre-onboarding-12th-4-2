@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from 'react'
+import {useCallback, useState, useEffect} from 'react'
 import {throttle} from 'lodash';
 
 export function useScroll() {
