@@ -1,11 +1,11 @@
-import axios, {AxiosInstance, AxiosError} from 'axios';
+import axios, { AxiosInstance, AxiosError } from "axios";
 
 const instance: AxiosInstance = axios.create({
   baseURL: `https://api.github.com/repos/`,
 });
 
 instance.interceptors.request.use(
-  config => {
+  (config) => {
     config.headers.Authorization = `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`;
     return config;
   },
@@ -14,4 +14,4 @@ instance.interceptors.request.use(
   },
 );
 
-export default instance
+export default instance;

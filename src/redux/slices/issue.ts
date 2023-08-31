@@ -1,44 +1,45 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { Issue } from '../../types'
-import { getIssueList, LOAD_DATA_LENGTH } from '../../api/issue'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Issue } from "../../types";
+import { getIssueList, LOAD_DATA_LENGTH } from "../../api/issue";
 
 // Define a type for the slice state
 interface IssueState {
-  data: Issue[],
-  page: number,
-  loading: boolean,
-  error: string | null,
-  hasMore: boolean,
+  data: Issue[];
+  page: number;
+  loading: boolean;
+  error: string | null;
+  hasMore: boolean;
 }
 
 // Define the initial state using that type
 const initialState: IssueState = {
-    data: [] as Issue[],
-    page: 0,
-    loading: false,
-    error: null as string | null,
-    hasMore: true,
-}
+  data: [] as Issue[],
+  page: 0,
+  loading: false,
+  error: null as string | null,
+  hasMore: true,
+};
 
-export const fetchIssueList = createAsyncThunk('issueList',
+export const fetchIssueList = createAsyncThunk(
+  "issueList",
   async (page: number, { rejectWithValue }) => {
     try {
       const response = await getIssueList(page);
 
-      return {response, page};
+      return { response, page };
     } catch (error) {
       return rejectWithValue((error as { message: string }).message);
     }
-  }
+  },
 );
 
 export const issueListSlice = createSlice({
-  name: 'issueList',
+  name: "issueList",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(fetchIssueList.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchIssueList.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchIssueList.fulfilled, (state, action) => {
@@ -53,8 +54,7 @@ export const issueListSlice = createSlice({
       state.loading = false;
       state.error = action.payload as string;
     });
-  }
+  },
+});
 
-})
-
-export default issueListSlice.reducer
+export default issueListSlice.reducer;

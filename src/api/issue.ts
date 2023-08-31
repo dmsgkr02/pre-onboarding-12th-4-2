@@ -3,27 +3,36 @@ import { Issue } from "../types";
 
 export const LOAD_DATA_LENGTH = 15;
 
-export const getIssueList = async (page:number, organization:string = `facebook`, repository:string = `react`) => {
+export const getIssueList = async (
+  page: number,
+  organization: string = `facebook`,
+  repository: string = `react`,
+) => {
   const response = await instance.get(`/${organization}/${repository}/issues`, {
-    params:{ page: page, per_page: LOAD_DATA_LENGTH, sort:'comments'}
+    params: { page: page, per_page: LOAD_DATA_LENGTH, sort: "comments" },
   });
 
   return response.data.map((issue: any) => {
-    return({
+    return {
       id: issue.id,
       number: issue.number,
       title: issue.title,
       comments: issue.comments,
       created_at: issue.created_at,
       login: issue.user.login,
-      avatar_url: issue.user.avatar_url
-    }) ;
+      avatar_url: issue.user.avatar_url,
+    };
   }) as Issue[];
+};
 
-}
-
-export const getIssueDetail = async (issueNumber:string | undefined, organization:string = `facebook`, repository:string = `react`) => {
-  const issue = (await instance.get((`/${organization}/${repository}/issues/${issueNumber}` ))).data;
+export const getIssueDetail = async (
+  issueNumber: string | undefined,
+  organization: string = `facebook`,
+  repository: string = `react`,
+) => {
+  const issue = (
+    await instance.get(`/${organization}/${repository}/issues/${issueNumber}`)
+  ).data;
 
   return {
     id: issue.id,
@@ -34,6 +43,5 @@ export const getIssueDetail = async (issueNumber:string | undefined, organizatio
     login: issue.user.login,
     avatar_url: issue.user.avatar_url,
     body: issue.body,
-  } as Issue
-}
-
+  } as Issue;
+};
