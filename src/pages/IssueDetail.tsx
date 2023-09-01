@@ -17,8 +17,7 @@ export default function IssueDetail() {
   
   useEffect(() => {
     dispatch(fetchIssueDetail(issueNumber));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, issueNumber]);
 
   if (error) {
     return <ErrorPage errorMesage={error} />;

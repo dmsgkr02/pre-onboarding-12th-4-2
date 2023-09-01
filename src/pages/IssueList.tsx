@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { fetchIssueList } from "../redux/slices/issue";
 import { useScroll } from "../hooks/useScroll";
@@ -23,19 +23,39 @@ export default function IssueList() {
   } = useAppSelector((state) => state.issuesList);
   const { scrollHeight, scrollY } = useScroll();
 
+  // useEffect(() => {
+  //   issueList.length === 0 && dispatch(fetchIssueList(1));
+  // }, [issueList.length, dispatch]);
+
+  // useEffect(() => {
+  //   if (loading || scrollY === scrollHeight || !hasMore) return;
+  //   if (scrollY > scrollHeight - scrollOffsetHeight) {
+  //     dispatch(fetchIssueList(page + 1));
+  //     return;      
+  //   }
+  // }, [loading, page, issueList, scrollY, scrollHeight, issueList, dispatch, hasMore]);
+
+  const nextIssueDispatch = useCallback(() => {
+    if (loading || !hasMore) return;
+    dispatch(
+      fetchIssueList(page + 1),
+    );
+  }, [dispatch, hasMore, loading, page]);
+
   useEffect(() => {
-    issueList.length === 0 && dispatch(fetchIssueList(1));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    !issueList.length &&
+      dispatch(
+        fetchIssueList(page),
+      );
   }, []);
 
   useEffect(() => {
-    if (loading || scrollY === scrollHeight || !hasMore) return;
+    if (scrollY === scrollHeight) return;
     if (scrollY > scrollHeight - scrollOffsetHeight) {
-      dispatch(fetchIssueList(page + 1));
-      return;      
+      nextIssueDispatch();
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, page, issueList, scrollY, scrollHeight, issueList]);
+  }, [scrollY, scrollHeight, nextIssueDispatch]);
 
   if (error) {
     return <ErrorPage errorMesage={error} />;
